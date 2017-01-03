@@ -3,6 +3,7 @@
 import urllib2
 # timer not to overload sites
 import time
+import os
 
 stockToPull = 'AAPL' # AAPL, FB, UAA
 stockRange = '1y' # 1y, 10d
@@ -11,6 +12,10 @@ def pullData(stock):
 	try:
 		# one time creation of stock's data to be stored here
 		fileLine = stock + '.txt'
+		
+		# possible overwrite of text file
+		os.remove(fileLine) if os.path.exists(fileLine) else None
+
 		urlToVisit = 'http://chartapi.finance.yahoo.com/instrument/1.0/' + stock + '/chartdata;type=quote;range=' + stockRange + '/csv'
 		# visit, open, and split url
 		openedSite = urllib2.urlopen(urlToVisit).read()
@@ -27,12 +32,8 @@ def pullData(stock):
 					saveFile.write(lineToWrite)
 
 		print 'Pulled', stock
-		print 'sleeping.'
-		time.sleep(1)
-		print 'sleeping..'
-		time.sleep(1)
-		print 'sleeping...'
-		time.sleep(1)
+		print 'sleeping'
+		time.sleep(2)
 		print 'done'
 
 	except Exception, e:
