@@ -5,7 +5,7 @@ import urllib2
 import time
 import os, sys
 
-stockToPull = 'AAPL' # AAPL, FB, UAA
+stocksToPull = 'AAPL', 'FB', 'UAA' # AAPL, FB, UAA, JCP, TGT, DIS
 stockRange = '1y' # 1y, 10d
 
 def pullData(stock):
@@ -31,20 +31,10 @@ def pullData(stock):
 					lineToWrite = eachLine + '\n'
 					saveFile.write(lineToWrite)
 
-		# remove last line
-		readFile = open(str(stock) + '.txt')
-		lines = readFile.readlines()
-		readFile.close()
-		w = open(str(stock) + '.txt', 'w')
-		w.writelines([i for i in lines[:-1]])
-		w.close()
-
 		print 'Pulled', stock
-		print 'sleeping'
-		time.sleep(2)
-		print 'done'
 
 	except Exception, e:
 		print 'error in main():', str(e)
 
-pullData(stockToPull)
+for stock in stocksToPull:
+	pullData(stock)
